@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package registry;
+
+service Registry {
+  // Register an address.
+  rpc register (Location) returns (RegisterResponse);
+
+  // Unregisters an address.
+  rpc unregister (Location) returns (RegisterResponse);
+  
+  // Gets the service location.
+  rpc fetchServiceLocation (LocationFetchRequest) returns (LocationList);
+}
+
+/// The location.
+message Location {
+  optional string name = 1;
+  optional string ipv4 = 2;
+  optional string port = 3;
+  optional string domain = 4;
+}
+
+/// The service.
+message Service {
+  string name = 1;
+}
+
+/// The list of locations registered.
+message LocationList {
+  repeated Location locations = 1;
+}
+
+/// The location request.
+message LocationFetchRequest {
+  repeated Service services = 1;
+  optional bool fetchAll = 2;
+}
+
+/// The response when registering/unregistering.
+message RegisterResponse {
+  string message = 1;
+}
